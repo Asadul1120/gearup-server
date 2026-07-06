@@ -1,0 +1,22 @@
+model Gear {
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  brand        String
+  image        String?
+
+  pricePerDay  Float
+  stock        Int
+  availability Boolean @default(true)
+
+  providerId   String
+  provider     User     @relation(fields: [providerId], references: [id])
+
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("gear_items")
+}

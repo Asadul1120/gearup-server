@@ -1,20 +1,29 @@
+
 model User {
-  id        String     @id @default(uuid())
-  name      String
-  email     String     @unique
-  password  String
-  phone     String?
-  image     String?
-  role      Role       @default(CUSTOMER)
-  status    UserStatus @default(ACTIVE)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id           String      @id @default(uuid())
+  name         String
+  email        String      @unique
+  password     String
+  phone        String?     @unique
+  profileImage String?
+  address      String?
+
+  role         UserRole    @default(CUSTOMER)
+  status       UserStatus  @default(ACTIVE)
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  gears Gear[]
+
+
+  @@map("users")
 }
 
-enum Role {
+enum UserRole {
+  ADMIN
   CUSTOMER
   PROVIDER
-  ADMIN
 }
 
 enum UserStatus {
