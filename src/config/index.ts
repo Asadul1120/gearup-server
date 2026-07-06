@@ -20,7 +20,7 @@ const config = {
 
   jwt_refresh_secret: process.env.JWT_REFRESH_SECRET as string,
 
-  jwt_access_expiration: process.env.JWT_ACCESS_EXPIRATION as string,
+  jwt_access_expiration: process.env.JWT_ACCESS_EXPIRATION!,
 
   jwt_refresh_expiration: process.env.JWT_REFRESH_EXPIRATION as string,
 };
