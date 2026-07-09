@@ -30,7 +30,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateUser = catchAsync(async (req: Request, res: Response) => {
-  const id = req.user?.id ;
+  const id = req.user?.id;
 
   const result = await UserServices.updateUser(id as string, req.body);
 
@@ -58,8 +58,9 @@ const updateUserStatus = catchAsync(async (req: Request, res: Response) => {
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+  const userId = req.user?.id;
 
-  await UserServices.deleteUser(id as string);
+  await UserServices.deleteUser(id as string, userId as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -5,6 +5,9 @@ import globalErrorHandler from "./middleware/globalErrorHandler.js";
 import { AuthRoutes } from "./modules/auth/auth.route.js";
 import cookieParser from "cookie-parser";
 import { UserRoutes } from "./modules/user/users.route.js";
+import { CategoryRoutes } from "./modules/category/category.route.js";
+import { GearRoutes } from "./modules/gear/gear.route.js";
+
 
 const app: Application = express();
 
@@ -28,6 +31,9 @@ app.get("/", (req: Request, res: Response) => {
 // Routes
 app.use("/api/auth", AuthRoutes);
 app.use("/api/users", UserRoutes);
+app.use("/api/categories", CategoryRoutes);
+app.use("/api/gear", GearRoutes);
+
 
 
 

@@ -1,6 +1,8 @@
+import { UserRole } from "../../../generated/prisma/client.js";
 import AppError from "../../errors/AppError.js";
 import { prisma } from "../../lib/prisma.js";
 import { IUpdateUser, IUpdateUserStatus } from "./users.interface.js";
+import httpStatus from "http-status";
 
 // Get all users
 const getAllUsers = async () => {
@@ -24,7 +26,7 @@ const getSingleUser = async (id: string) => {
   });
 
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
   return user;
@@ -39,7 +41,7 @@ const updateUser = async (id: string, payload: IUpdateUser) => {
   });
 
   if (!user) {
-    throw new AppError(404, "User not found");
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
   const updatedUser = await prisma.user.update({
@@ -55,19 +57,15 @@ const updateUser = async (id: string, payload: IUpdateUser) => {
     omit: {
       password: true,
     },
- 
   });
 
   return updatedUser;
 };
 
 // Update user status  admin only
-const updateUserStatus = async (
-  id: string,
-  payload: IUpdateUserStatus,
-) => {
+const updateUserStatus = async (id: string, payload: IUpdateUserStatus) => {
   if (!payload?.status) {
-    throw new AppError(400, "Status is required.");
+    throw new AppError(httpStatus.BAD_REQUEST, "Status is required.");
   }
 
   const user = await prisma.user.findUnique({
@@ -77,7 +75,7 @@ const updateUserStatus = async (
   });
 
   if (!user) {
-    throw new AppError(404, "User not found");
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
   const updatedUser = await prisma.user.update({
@@ -105,7 +103,20 @@ const updateUserStatus = async (
 };
 
 // Delete user by ID
-const deleteUser = async (id: string) => {
+const deleteUser = async (id: string, userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (id === userId && user?.role === UserRole.ADMIN) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "You cannot delete your own account.",
+    );
+  }
+
   return await prisma.user.delete({
     where: { id },
   });
