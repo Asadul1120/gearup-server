@@ -23,6 +23,8 @@ const config = {
   jwt_access_expiration: process.env.JWT_ACCESS_EXPIRATION!,
 
   jwt_refresh_expiration: process.env.JWT_REFRESH_EXPIRATION as string,
+  stripe_secret_key: process.env.STRIPE_SECRET_KEY as string,
+  stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET as string,
 };
 
 export default config;
