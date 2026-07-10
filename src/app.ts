@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { UserRoutes } from "./modules/user/users.route.js";
 import { CategoryRoutes } from "./modules/category/category.route.js";
 import { GearRoutes } from "./modules/gear/gear.route.js";
+import { RentalRoutes } from "./modules/rental/rental.route.js";
 
 
 const app: Application = express();
@@ -33,6 +34,7 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/users", UserRoutes);
 app.use("/api/categories", CategoryRoutes);
 app.use("/api/gear", GearRoutes);
+app.use("/api/rentals", RentalRoutes);
 
 
 
