@@ -83,6 +83,57 @@ const createReview = async (customerId: string, payload: ICreateReview) => {
   return review;
 };
 
+const getGearReviews = async (gearId: string) => {
+  const gear = await prisma.gear.findUnique({
+    where: {
+      id: gearId,
+    },
+  });
+
+  if (!gear) {
+    throw new AppError(httpStatus.NOT_FOUND, "Gear ID not found");
+  }
+
+  return await prisma.review.findMany({
+    where: {
+      gearId,
+    },
+    include: {
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          profileImage: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+};
+
+const deleteReview = async (reviewId: string) => {
+  const review = await prisma.review.findUnique({
+    where: {
+      id: reviewId,
+    },
+  });
+
+  if (!review) {
+    throw new AppError(httpStatus.NOT_FOUND, "Review not found");
+  }
+
+  await prisma.review.delete({
+    where: {
+      id: reviewId,
+    },
+  });
+
+  return null;
+};
 export const ReviewServices = {
   createReview,
+  getGearReviews,
+  deleteReview,
 };

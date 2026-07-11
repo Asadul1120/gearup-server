@@ -9,4 +9,10 @@ const router = Router();
 // Customer
 router.post("/", auth(UserRole.CUSTOMER), ReviewControllers.createReview);
 
+// Public
+router.get("/:gearId", ReviewControllers.getGearReviews);
+
+// Admin
+router.delete("/:id", auth(UserRole.ADMIN), ReviewControllers.deleteReview);
+
 export const ReviewRoutes = router;
