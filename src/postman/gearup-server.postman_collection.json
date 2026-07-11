@@ -1,0 +1,620 @@
+{
+  "info": {
+    "_postman_id": "1b38964b-2c5d-474c-adb0-a70629c9420d",
+    "name": "gearup-server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37760772",
+    "_collection_link": "https://go.postman.co/collection/37760772-1b38964b-2c5d-474c-adb0-a70629c9420d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"ABC Sports Shop\",\r\n  \"email\": \"provider@example.com\",\r\n  \"password\": \"12345678\",\r\n  \"phone\": \"01812345678\",\r\n  \"profileImage\": \"https://i.ibb.co/example/provider.jpg\",\r\n  \"address\": \"Mirpur, Dhaka\",\r\n  \"role\": \"PROVIDER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"provider2@gmail.com\",\r\n  \"password\": \"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/auth/me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/auth/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "get all users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/users/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "users", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get a user /:id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/users/21e5133b-00ac-4d64-84c6-40d8ff1d2fa1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "users", "21e5133b-00ac-4d64-84c6-40d8ff1d2fa1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update user only",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Mr john \",\r\n  \"phone\": \"01712345678\",\r\n  \"profileImage\": \"https://i.ibb.co/example/profile.jpg\",\r\n  \"address\": \"Savar, Dhaka, Bangladesh\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/users/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "users", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update status user only admin",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/users/status/e18838a1-2777-4a61-9c70-fbefbd3b86ec",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": [
+                "api",
+                "users",
+                "status",
+                "e18838a1-2777-4a61-9c70-fbefbd3b86ec"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete user only admin",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "gear",
+      "item": [
+        {
+          "name": "gear create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Camping Tent Pro\",\r\n  \"description\": \"4-person waterproof camping tent for outdoor adventures.\",\r\n  \"brand\": \"Quechua\",\r\n  \"image\": \"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4\",\r\n  \"pricePerDay\": 800,\r\n  \"stock\": 10,\r\n  \"categoryId\": \"ee7fc17c-1cbd-452f-9db5-435441590dc5\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/gear",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "gear"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all gear",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Mountain Bike\",\r\n  \"description\": \"Professional mountain bike for outdoor adventure.\",\r\n  \"brand\": \"Giant\",\r\n  \"image\": \"https://example.com/images/mountain-bike.jpg\",\r\n  \"pricePerDay\": 1200,\r\n  \"stock\": 5,\r\n  \"categoryId\": \"1fb81d44-6c87-4639-a199-1453e1e48dd4\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/gear/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "gear", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "a gear",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Mountain Bike\",\r\n  \"description\": \"Professional mountain bike for outdoor adventure.\",\r\n  \"brand\": \"Giant\",\r\n  \"image\": \"https://example.com/images/mountain-bike.jpg\",\r\n  \"pricePerDay\": 1200,\r\n  \"stock\": 5,\r\n  \"categoryId\": \"1fb81d44-6c87-4639-a199-1453e1e48dd4\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/gear/c091063a-149f-402b-9910-24fd9fdd7ff8",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "gear", "c091063a-149f-402b-9910-24fd9fdd7ff8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update gear",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"name\": \"Camping Tent Pro p\",\r\n        \"description\": \"4-person waterproof camping tent for outdoor adventures.\",\r\n        \"brand\": \"Quechua\",\r\n        \"image\": \"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4\",\r\n        \"pricePerDay\": 800,\r\n        \"stock\": 11\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/gear/a3263710-1bd7-4b58-b0cb-aa5a3d6e8c50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "gear", "a3263710-1bd7-4b58-b0cb-aa5a3d6e8c50"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"name\": \"Camping Tent Pro p\",\r\n        \"description\": \"4-person waterproof camping tent for outdoor adventures.\",\r\n        \"brand\": \"Quechua\",\r\n        \"image\": \"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4\",\r\n        \"pricePerDay\": 800,\r\n        \"stock\": 11\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/gear/a3263710-1bd7-4b58-b0cb-aa5a3d6e8c50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "gear", "a3263710-1bd7-4b58-b0cb-aa5a3d6e8c50"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "item": [
+        {
+          "name": "create categories",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Fitness\",\r\n  \"description\": \"Dumbbells, treadmills, resistance bands and gym equipment.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/categories",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/categories",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "a categories",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/categories/1fb81d44-6c87-4639-a199-1453e1e48dd4",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": [
+                "api",
+                "categories",
+                "1fb81d44-6c87-4639-a199-1453e1e48dd4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update categories",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Camping Equipment\",\r\n  \"description\": \"Tents, sleeping bags, camping chairs, lanterns and other outdoor camping essentials.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/categories/1fb81d44-6c87-4639-a199-1453e1e48dd4",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": [
+                "api",
+                "categories",
+                "1fb81d44-6c87-4639-a199-1453e1e48dd4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/categories/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "categories", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "rental",
+      "item": [
+        {
+          "name": "create rentails",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gearId\": \"700072e5-229a-4fe7-b3a6-bcd4c433fc69\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-14\",\r\n  \"endDate\": \"2026-07-17\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/rentals",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "rentals"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/provider/orders",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "update status p..",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/rentals/provider/orders/0de0890c-a3c8-4d84-a233-76c317a86d3a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": [
+                "api",
+                "rentals",
+                "provider",
+                "orders",
+                "0de0890c-a3c8-4d84-a233-76c317a86d3a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get rentals",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "get single rentals",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "payment",
+      "item": [
+        {
+          "name": "create payments",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"rentalOrderId\": \"0de0890c-a3c8-4d84-a233-76c317a86d3a\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/payments/create",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "payments", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get payments",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gearId\": \"700072e5-229a-4fe7-b3a6-bcd4c433fc69\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-14\",\r\n  \"endDate\": \"2026-07-17\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/payments/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "payments", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get single payment",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"rentalOrderId\": \"YOUR_RENTAL_ID\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/payments/56b355f4-c7ca-4bf1-9800-77719b68a80a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": [
+                "api",
+                "payments",
+                "56b355f4-c7ca-4bf1-9800-77719b68a80a"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "review",
+      "item": [
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gearId\": \"c091063a-149f-402b-9910-24fd9fdd7ff8\",\r\n  \"rating\": 4,\r\n  \"comment\": \"Excellent quality. Highly recommended.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/reviews/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "reviews", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get review by gear id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gearId\": \"c091063a-149f-402b-9910-24fd9fdd7ff8\",\r\n  \"rating\": 4,\r\n  \"comment\": \"Excellent quality. Highly recommended.\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/reviews/c091063a-149f-402b-9910-24fd9fdd7ff8",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "reviews", "c091063a-149f-402b-9910-24fd9fdd7ff8"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

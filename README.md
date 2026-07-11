@@ -12,8 +12,8 @@ https://github.com/Asadul1120/gearup-server.git
 **Live API:**  
 https://gearup-server.onrender.com
 
-**API Documentation:**  
-https://documenter.getpostman.com/view/xxx
+**API Documentation:** 
+https://documenter.getpostman.com/view/37760772/2sBY4LS2dt
 
 **Demo Video:**  
 https://drive.google.com/file/d/xxx/view
