@@ -6,7 +6,6 @@ import { comparePassword, hashPassword } from "../../utils/password.js";
 import { generateToken } from "../../utils/jwt.js";
 import { SignOptions } from "jsonwebtoken";
 
-
 const registerUser = async (payload: IRegisterUser) => {
   const { name, email, password, phone, profileImage, address, role } = payload;
   const existingUser = await prisma.user.findUnique({
@@ -24,7 +23,6 @@ const registerUser = async (payload: IRegisterUser) => {
       "You cannot register as ADMIN. only CUSTOMER or PROVIDER role is allowed",
     );
   }
-  
 
   const hashedPassword = await hashPassword(password);
 
@@ -108,6 +106,11 @@ const getMe = async (userId: string) => {
     },
     omit: {
       password: true,
+    },
+    include: {
+      gears: true,
+      rentals: true,
+      reviews: true,
     },
   });
 

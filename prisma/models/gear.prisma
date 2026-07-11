@@ -9,11 +9,11 @@ model Gear {
   stock        Int
   availability Boolean @default(true)
 
-  providerId   String
-  provider     User     @relation(fields: [providerId], references: [id])
+  providerId   String 
+  provider     User     @relation(fields: [providerId], references: [id], onDelete: Cascade) 
 
   categoryId   String
-  category     Category @relation(fields: [categoryId], references: [id])
+  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
 
   rentals RentalOrder[] 
