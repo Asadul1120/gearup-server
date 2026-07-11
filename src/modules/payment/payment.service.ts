@@ -6,8 +6,10 @@ import AppError from "../../errors/AppError.js";
 import { prisma } from "../../lib/prisma.js";
 import { stripe } from "../../config/stripe.js";
 
-const createPayment = async (customerId: string, rentalOrderId: string) => {
-  // Check Rental
+const createPayment = async (
+  customerId: string,
+  rentalOrderId: string,
+) => {
   const rental = await prisma.rentalOrder.findUnique({
     where: {
       id: rentalOrderId,
@@ -19,10 +21,12 @@ const createPayment = async (customerId: string, rentalOrderId: string) => {
   });
 
   if (!rental) {
-    throw new AppError(httpStatus.NOT_FOUND, "Rental order not found");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Rental order not found",
+    );
   }
 
-  // Check Owner
   if (rental.customerId !== customerId) {
     throw new AppError(
       httpStatus.FORBIDDEN,
@@ -30,17 +34,20 @@ const createPayment = async (customerId: string, rentalOrderId: string) => {
     );
   }
 
-  // Rental must be confirmed
   if (rental.status !== "CONFIRMED") {
-    throw new AppError(httpStatus.BAD_REQUEST, "Rental is not confirmed yet");
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Rental is not confirmed yet",
+    );
   }
 
-  // Already paid?
   if (rental.payment) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Payment already exists");
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Payment already completed",
+    );
   }
 
-  // Stripe Checkout Session
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
 
@@ -68,25 +75,13 @@ const createPayment = async (customerId: string, rentalOrderId: string) => {
       customerId,
     },
 
-    success_url: "http://localhost:5173/payment-success",
+    success_url: `${config.app_url}/payment-success`,
 
-    cancel_url: "http://localhost:5173/payment-cancel",
-  });
-
-  // Save payment
-  const payment = await prisma.payment.create({
-    data: {
-      rentalOrderId: rental.id,
-      transactionId: session.id,
-      amount: rental.totalAmount,
-      provider: "STRIPE",
-      status: "PENDING",
-    },
+    cancel_url: `${config.app_url}/payment-cancel`,
   });
 
   return {
     checkoutUrl: session.url,
-    payment,
   };
 };
 
@@ -141,10 +136,6 @@ const getSinglePayment = async (customerId: string, paymentId: string) => {
 const stripeWebhook = async (req: Request) => {
   const signature = req.headers["stripe-signature"] as string;
 
-  if (!signature) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Stripe signature is missing");
-  }
-
   const event = stripe.webhooks.constructEvent(
     req.body,
     signature,
@@ -155,27 +146,25 @@ const stripeWebhook = async (req: Request) => {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      const payment = await prisma.payment.findUnique({
+      const rentalOrderId = session.metadata?.rentalOrderId;
+
+      if (!rentalOrderId) return;
+
+      const existingPayment = await prisma.payment.findFirst({
         where: {
           transactionId: session.id,
         },
       });
 
-      if (!payment) {
-        return;
-      }
-
-      // Already Completed
-      if (payment.status === "COMPLETED") {
-        return;
-      }
+      if (existingPayment) return;
 
       await prisma.$transaction(async (tx) => {
-        await tx.payment.update({
-          where: {
-            id: payment.id,
-          },
+        await tx.payment.create({
           data: {
+            rentalOrderId,
+            transactionId: session.id,
+            amount: Number(session.amount_total!) / 100,
+            provider: "STRIPE",
             status: "COMPLETED",
             paidAt: new Date(),
           },
@@ -183,7 +172,7 @@ const stripeWebhook = async (req: Request) => {
 
         await tx.rentalOrder.update({
           where: {
-            id: payment.rentalOrderId,
+            id: rentalOrderId,
           },
           data: {
             status: "PAID",
@@ -194,23 +183,8 @@ const stripeWebhook = async (req: Request) => {
       break;
     }
 
-    case "checkout.session.expired": {
-      const session = event.data.object as Stripe.Checkout.Session;
-
-      await prisma.payment.updateMany({
-        where: {
-          transactionId: session.id,
-        },
-        data: {
-          status: "FAILED",
-        },
-      });
-
-      break;
-    }
-
     default:
-      console.log(`Unhandled event: ${event.type}`);
+      break;
   }
 };
 
