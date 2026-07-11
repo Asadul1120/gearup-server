@@ -51,7 +51,7 @@ const createPayment = async (customerId: string, rentalOrderId: string) => {
         quantity: 1,
 
         price_data: {
-          currency: "usd",
+          currency: "BDT",
 
           unit_amount: Math.round(rental.totalAmount * 100),
 
