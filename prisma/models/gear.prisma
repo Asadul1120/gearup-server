@@ -1,9 +1,9 @@
 model Gear {
   id           String   @id @default(uuid())
-  name         String    
-  description  String
-  brand        String
-  image        String?
+  name         String   @db.VarChar(55)
+  description  String   @db.Text
+  brand        String   @db.VarChar(30)
+  image        String?  @db.Text
 
   pricePerDay  Float  
   stock        Int
