@@ -6,8 +6,9 @@ import { comparePassword, hashPassword } from "../../utils/password.js";
 import { generateToken } from "../../utils/jwt.js";
 import { SignOptions } from "jsonwebtoken";
 
+
 const registerUser = async (payload: IRegisterUser) => {
-   const { name, email, password, phone, profileImage, address, role } = payload;
+  const { name, email, password, phone, profileImage, address, role } = payload;
   const existingUser = await prisma.user.findUnique({
     where: {
       email: payload.email,
@@ -18,7 +19,14 @@ const registerUser = async (payload: IRegisterUser) => {
     throw new Error("User already exists");
   }
 
-  const hashedPassword = await hashPassword(payload.password);
+  if (role && !["CUSTOMER", "PROVIDER"].includes(role)) {
+    throw new Error(
+      "You cannot register as ADMIN. only CUSTOMER or PROVIDER role is allowed",
+    );
+  }
+  
+
+  const hashedPassword = await hashPassword(password);
 
   const user = await prisma.user.create({
     data: {
@@ -92,7 +100,6 @@ const loginUser = async (payload: ILoginUser) => {
     user,
   };
 };
-
 
 const getMe = async (userId: string) => {
   const user = await prisma.user.findUnique({

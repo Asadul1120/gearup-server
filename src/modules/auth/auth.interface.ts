@@ -5,7 +5,7 @@ export interface IRegisterUser {
   phone?: string;
   profileImage?: string;
   address?: string;
-  role?: "CUSTOMER" | "PROVIDER";
+  role?: "CUSTOMER" | "PROVIDER" | "ADMIN";
 }
 
 export interface ILoginUser {
