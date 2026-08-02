@@ -107,6 +107,17 @@ const getAllGear = async (query: any) => {
           phone: true,
         },
       },
+     reviews: {
+        include: {
+          customer: {
+            select: {
+              id: true,
+              name: true,
+              profileImage: true,
+            },
+          },
+        },
+      },
     },
 
     orderBy: {
@@ -141,6 +152,17 @@ const getSingleGear = async (id: string) => {
           id: true,
           name: true,
           email: true,
+        },
+      },
+      reviews: {
+        include: {
+          customer: {
+            select: {
+              id: true,
+              name: true,
+              profileImage: true,
+            },
+          },
         },
       },
     },
